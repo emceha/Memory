@@ -32,15 +32,13 @@ for n, m in enumerate(monsters):
     m.x = (n % 6) * 100 + 2
     m.y = (n // 6) * 100 + 2
 
-mfound = 0
 clicks = 0
-
 running = True
 gameover = False
 warmup = True
 
 m2check = set()
-start = gameon = hold = time.time()
+gameon = hold = time.time()
 
 while running:
     clock.tick(50)
@@ -63,7 +61,7 @@ while running:
             st = "{:02d}:{:02d}".format(tm // 60, tm % 60)
         pygame.display.set_caption(f"Time {st}  {DOT}  Clicks {clicks:03d}")
     else:
-        sek = int(9 - (time.time() - start))
+        sek = int(9 - (time.time() - gameon))
         pygame.display.set_caption(f"Start In   {sek} s")
         if sek < 1:
             gameon = time.time()
@@ -73,20 +71,19 @@ while running:
         m1, m2 = m2check.pop(), m2check.pop()
         if m1.face == m2.face:
             m1.found = m2.found = True
-            mfound += 1
-            if mfound == 18:
+            if all([m.found for m in monsters]):
                 gameover = True
 
-    event = pygame.event.poll()
-    if event.type == pygame.QUIT:
-        running = False
-    elif event.type == pygame.MOUSEBUTTONDOWN:
-        if not gameover and not warmup:
-            if event.button == 1:
-                x, y = pygame.mouse.get_pos()
-                m = monsters[(y // 100) * 6 + x // 100]
-                if not m.found and m not in m2check:
-                    if len(m2check) < 2:
-                        m2check.add(m)
-                        hold = time.time()
-                        clicks += 1
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if not gameover and not warmup:
+                if event.button == 1:
+                    x, y = pygame.mouse.get_pos()
+                    m = monsters[(y // 100) * 6 + x // 100]
+                    if not m.found and m not in m2check:
+                        if len(m2check) < 2:
+                            m2check.add(m)
+                            hold = time.time()
+                            clicks += 1
