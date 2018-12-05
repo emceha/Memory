@@ -26,7 +26,12 @@ for n in range(18):
     face = pygame.image.load(f"./img/{n}.png")
     monsters.append(Monster(face, False))
     monsters.append(Monster(face, False))
+
 random.shuffle(monsters)
+for n, m in enumerate(monsters):
+    m.x = (n % 6) * 100 + 2
+    m.y = (n // 6) * 100 + 2
+
 
 mfound = 0
 clicks = 0
@@ -43,18 +48,15 @@ while running:
     pygame.display.flip()
     screen.blit(bgimg, (0, 0))
 
-    for n, m in enumerate(monsters):
-        x = (n % 6) * 100 + 2
-        y = (n // 6) * 100 + 2
-
+    for m in monsters:
         if m in m2check or gameover:
             rx = random.randint(-1, 1)
             ry = random.randint(-1, 1)
-            screen.blit(m.face, (x + rx, y + ry))
+            screen.blit(m.face, (m.x + rx, m.y + ry))
         elif m.found or warmup:
-            screen.blit(m.face, (x, y))
+            screen.blit(m.face, (m.x, m.y))
         else:
-            screen.blit(blank, (x, y))
+            screen.blit(blank, (m.x, m.y))
 
     if not warmup:
         if not gameover:
