@@ -32,7 +32,6 @@ for n, m in enumerate(monsters):
     m.x = (n % 6) * 100 + 2
     m.y = (n // 6) * 100 + 2
 
-
 mfound = 0
 clicks = 0
 
