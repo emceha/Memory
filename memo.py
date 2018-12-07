@@ -27,9 +27,9 @@ for n in range(18):
 
 random.shuffle(monsters)
 for n, m in enumerate(monsters):
-    m.x = (n % 6) * 100 + 2
-    m.y = (n // 6) * 100 + 2
-    m.r = pygame.Rect(m.x + 15, m.y + 15, 70, 70)
+    m.x = (n % 6) * 98 + 6
+    m.y = (n // 6) * 98 + 6
+    m.r = pygame.Rect(m.x + 18, m.y + 18, 60, 60)
 
 running = True
 gameover = False
